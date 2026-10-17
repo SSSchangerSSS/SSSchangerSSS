@@ -1,16 +1,100 @@
-## Hi there 👋
+<img src="https://capsule-render.vercel.app/api?type=waving&height=200&color=0:001a00,50:008c00,100:00FF41&text=Sohrab%20Iranpak&fontSize=46&fontAlignY=34&desc=R%26D%20Software%20Engineer&descAlignY=58&descSize=18&animation=fadeIn" width="100%" />
 
-<!--
-**SSSchangerSSS/SSSchangerSSS** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+<div align="center">
 
-Here are some ideas to get you started:
+[![Followers](https://img.shields.io/github/followers/SSSchangerSSS?style=for-the-badge&color=00FF41&labelColor=0D1117&logo=github&logoColor=00FF41)](https://github.com/SSSchangerSSS)
+[![Public Repos](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.github.com%2Fusers%2FSSSchangerSSS&query=%24.public_repos&label=Repos&style=for-the-badge&color=00FF41&labelColor=0D1117)](https://github.com/SSSchangerSSS?tab=repositories)
+[![Profile Views](https://komarev.com/ghpvc/?username=SSSchangerSSS&color=00FF41&style=for-the-badge&label=VIEWS)](https://github.com/SSSchangerSSS)
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+</div>
+
+<div align="center">
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&pause=1200&color=00FF41&center=true&vCenter=true&random=false&width=780&height=70&lines=R%26D+Software+Engineer+%F0%9F%A4%96;Robotics+%E2%80%A2+MATLAB+%E2%80%A2+.NET+%E2%80%A2+Angular+%E2%80%A2+Flutter;Game+Developer+%E2%80%94+Love2D+%2F+Lua+%F0%9F%8E%AE;Building+the+future%2C+one+commit+at+a+time" alt="Typing SVG" />
+</div>
+
+<div align="center">
+  <img src="assets/matrix-rain.gif" width="420" alt="Matrix digital rain" />
+</div>
+
+---
+
+## ⚡ About Me | درباره‌ی من
+
+```bash
+$ whoami
+sohrab_iranpak   # R&D Software Engineer @ SandSprogrammingGroup & TheUndeniables
+
+$ cat interests.txt
+robotics 🤖 | matlab_simulation 📐 | .net_backend ⚙️ | game_dev 🎮 | web_mobile 🌐
+
+$ cat motto.txt
+"از رباتیک تا بازی‌سازی — کد می‌نویسم، دنیا می‌سازم"
+```
+
+- 🤖 **Robotics & Simulation** — RRR robot simulation with GUI & 3D plotting, genetic algorithms | شبیه‌سازی ربات و الگوریتم ژنتیک
+- ⚙️ **.NET Engineering** — Web API, WPF MVVM, database design | بک‌اند و دسکتاپ دات‌نت
+- 🎮 **Game Development** — 2D games with Love2D / Lua | بازی‌سازی دوبعدی با Love2D
+- 🌐 **Web & Mobile** — Angular, TypeScript, Flutter | توسعه وب و موبایل
+- 📡 **Low-level & Systems** — image processing, network packet analysis with Scapy | پردازش تصویر و تحلیل شبکه
+
+<div align="center">
+  <img src="assets/robot-arm.gif" width="340" alt="Robotic arm simulation" />
+  &nbsp;&nbsp;
+  <img src="assets/pixel-game.gif" width="340" alt="Pixel game development" />
+</div>
+
+---
+
+## 🛠 Tech Stack | تکنولوژی‌ها
+
+<div align="center">
+  <img src="https://skillicons.dev/icons?i=c,cpp,cs,dotnet,java,py,ts,js,md&perline=9" alt="core languages" />
+  <br/>
+  <img src="https://skillicons.dev/icons?i=angular,flutter,dart,mysql,docker,git,github,bash,linux&perline=9" alt="frameworks and tools" />
+</div>
+
+<div align="center">
+
+![MATLAB](https://img.shields.io/badge/MATLAB-00FF41?style=for-the-badge&logo=MathWorks&logoColor=black&labelColor=0D1117)
+![Love2D](https://img.shields.io/badge/Love2D-00FF41?style=for-the-badge&logo=Lua&logoColor=black&labelColor=0D1117)
+![WPF](https://img.shields.io/badge/WPF%20MVVM-00FF41?style=for-the-badge&logo=.net&logoColor=black&labelColor=0D1117)
+![Robotics](https://img.shields.io/badge/Robotics%20Toolbox-00FF41?style=for-the-badge&logo=robotframework&logoColor=black&labelColor=0D1117)
+
+</div>
+
+---
+
+## 🚀 Featured Projects | پروژه‌های منتخب
+
+| Project | Tech | Description |
+|---|---|---|
+| [⚔️ The-Great-Rostam](https://github.com/SSSchangerSSS/The-Great-Rostam) | ![Lua](https://img.shields.io/badge/Lua-00FF41?style=flat-square&logo=lua&logoColor=black&labelColor=0D1117) | 2D action game inspired by Rostam of Shahnameh — بازی اکشن دوبعدی بر اساس رستم شاهنامه |
+| [🤖 RRR Robot Simulation](https://github.com/SSSchangerSSS/3degree_RRR_robot_in_matlab_genetic_algorithm) | ![MATLAB](https://img.shields.io/badge/MATLAB-00FF41?style=flat-square&logo=mathworks&logoColor=black&labelColor=0D1117) | RRR robot with GUI & 3D plotting, genetic algorithm — ⭐3 |
+| [🚗 Car Rental WPF](https://github.com/SSSchangerSSS/MVVM_WPF_Car_Rental_Management_App) | ![C#](https://img.shields.io/badge/C%23-00FF41?style=flat-square&logo=csharp&logoColor=black&labelColor=0D1117) | Full MVVM WPF car rental management — برنامه کامل اجاره خودرو |
+| [🎮 2D Lua Game](https://github.com/SSSchangerSSS/2d_lua_game_made_with_love2d_engine_for_android) | ![Lua](https://img.shields.io/badge/Love2D-00FF41?style=flat-square&logo=lua&logoColor=black&labelColor=0D1117) | Complete 2D game built with Love2D for Android — بازی دوبعدی اندروید |
+
+---
+
+## 📊 GitHub Stats | آمار گیت‌هاب
+
+<div align="center">
+  <img height="190em" src="https://github-readme-stats-sigma-five.vercel.app/api?username=SSSchangerSSS&show_icons=true&theme=matrix&hide_border=true&bg_color=00000000&count_private=true&include_all_commits=true" alt="GitHub stats" />
+  <img height="190em" src="https://streak-stats.demolab.com?user=SSSchangerSSS&hide_border=true&background=0D1117&border=00FF41&stroke=00FF41&ring=00FF41&fire=00FF41&currStreakLabel=00FF41&sideLabels=00FF41&dates=00E703&currStreakNum=FFFFFF&sideNums=FFFFFF" alt="GitHub streak" />
+  <img height="190em" src="https://github-readme-stats-sigma-five.vercel.app/api/top-langs/?username=SSSchangerSSS&layout=compact&theme=matrix&hide_border=true&bg_color=00000000&langs_count=8" alt="Top languages" />
+</div>
+
+---
+
+## 🐍 Contribution Snake | مار مشارکت‌ها
+
+<div align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SSSchangerSSS/SSSchangerSSS/output/github-contribution-grid-snake-dark.svg" />
+    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/SSSchangerSSS/SSSchangerSSS/output/github-contribution-grid-snake.svg" />
+    <img alt="contribution snake animation" src="https://raw.githubusercontent.com/SSSchangerSSS/SSSchangerSSS/output/github-contribution-grid-snake.svg" />
+  </picture>
+</div>
+
+---
+
+<img src="https://capsule-render.vercel.app/api?type=waving&height=150&color=0:001a00,50:008c00,100:00FF41&section=footer&text=EOF&fontSize=26&fontAlignY=65&animation=fadeIn" width="100%" />
