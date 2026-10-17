@@ -78,9 +78,9 @@ $ cat motto.txt
 ## 📊 GitHub Stats | آمار گیت‌هاب
 
 <div align="center">
-  <img height="190em" src="https://github-readme-stats-sigma-five.vercel.app/api?username=SSSchangerSSS&show_icons=true&theme=matrix&hide_border=true&bg_color=00000000&count_private=true&include_all_commits=true" alt="GitHub stats" />
+  <img height="190em" src="assets/github-stats.svg" alt="GitHub stats" />
   <img height="190em" src="https://streak-stats.demolab.com?user=SSSchangerSSS&hide_border=true&background=0D1117&border=00FF41&stroke=00FF41&ring=00FF41&fire=00FF41&currStreakLabel=00FF41&sideLabels=00FF41&dates=00E703&currStreakNum=FFFFFF&sideNums=FFFFFF" alt="GitHub streak" />
-  <img height="190em" src="https://github-readme-stats-sigma-five.vercel.app/api/top-langs/?username=SSSchangerSSS&layout=compact&theme=matrix&hide_border=true&bg_color=00000000&langs_count=8" alt="Top languages" />
+  <img height="190em" src="assets/top-langs.svg" alt="Top languages" />
 </div>
 
 ---
