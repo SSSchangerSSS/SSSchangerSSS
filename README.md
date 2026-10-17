@@ -9,7 +9,7 @@
 </div>
 
 <div align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&pause=1200&color=00FF41&center=true&vCenter=true&random=false&width=780&height=70&lines=R%26D+Software+Engineer+%F0%9F%A4%96;Robotics+%E2%80%A2+MATLAB+%E2%80%A2+.NET+%E2%80%A2+Angular+%E2%80%A2+Flutter;Game+Developer+%E2%80%94+Love2D+%2F+Lua+%F0%9F%8E%AE;Building+the+future%2C+one+commit+at+a+time" alt="Typing SVG" />
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&pause=1200&color=00FF41&center=true&vCenter=true&random=false&width=780&height=70&lines=R%26D+Software+Engineer+%F0%9F%A4%96;Robotics+%E2%80%A2+MATLAB+%E2%80%A2+.NET+%E2%80%A2+Angular+%E2%80%A2+Flutter;Game+Developer+%E2%80%94+JavaScript+%2F+HTML5+%F0%9F%8E%AE;Building+the+future%2C+one+commit+at+a+time" alt="Typing SVG" />
 </div>
 
 <div align="center">
@@ -33,7 +33,7 @@ $ cat motto.txt
 
 - 🤖 **Robotics & Simulation** — RRR robot simulation with GUI & 3D plotting, genetic algorithms | شبیه‌سازی ربات و الگوریتم ژنتیک
 - ⚙️ **.NET Engineering** — Web API, WPF MVVM, database design | بک‌اند و دسکتاپ دات‌نت
-- 🎮 **Game Development** — 2D games with Love2D / Lua | بازی‌سازی دوبعدی با Love2D
+- 🎮 **Game Development** — HTML5/JS action games, Love2D | بازی‌سازی دوبعدی با جاوااسکریپت و Love2D
 - 🌐 **Web & Mobile** — Angular, TypeScript, Flutter | توسعه وب و موبایل
 - 📡 **Low-level & Systems** — image processing, network packet analysis with Scapy | پردازش تصویر و تحلیل شبکه
 
@@ -56,7 +56,7 @@ $ cat motto.txt
 <div align="center">
 
 ![MATLAB](https://img.shields.io/badge/MATLAB-00FF41?style=for-the-badge&logo=MathWorks&logoColor=black&labelColor=0D1117)
-![Love2D](https://img.shields.io/badge/Love2D-00FF41?style=for-the-badge&logo=Lua&logoColor=black&labelColor=0D1117)
+![JavaScript](https://img.shields.io/badge/JavaScript-00FF41?style=for-the-badge&logo=javascript&logoColor=black&labelColor=0D1117)
 ![WPF](https://img.shields.io/badge/WPF%20MVVM-00FF41?style=for-the-badge&logo=.net&logoColor=black&labelColor=0D1117)
 ![Robotics](https://img.shields.io/badge/Robotics%20Toolbox-00FF41?style=for-the-badge&logo=robotframework&logoColor=black&labelColor=0D1117)
 
@@ -68,7 +68,7 @@ $ cat motto.txt
 
 | Project | Tech | Description |
 |---|---|---|
-| [⚔️ The-Great-Rostam](https://github.com/SSSchangerSSS/The-Great-Rostam) | ![Lua](https://img.shields.io/badge/Lua-00FF41?style=flat-square&logo=lua&logoColor=black&labelColor=0D1117) | 2D action game inspired by Rostam of Shahnameh — بازی اکشن دوبعدی بر اساس رستم شاهنامه |
+| [⚔️ The-Great-Rostam](https://github.com/SSSchangerSSS/The-Great-Rostam) | ![JS](https://img.shields.io/badge/JavaScript-00FF41?style=flat-square&logo=javascript&logoColor=black&labelColor=0D1117) | 2D action game inspired by Rostam of Shahnameh, playable in browser — بازی اکشن دوبعدی رستم شاهنامه |
 | [🤖 RRR Robot Simulation](https://github.com/SSSchangerSSS/3degree_RRR_robot_in_matlab_genetic_algorithm) | ![MATLAB](https://img.shields.io/badge/MATLAB-00FF41?style=flat-square&logo=mathworks&logoColor=black&labelColor=0D1117) | RRR robot with GUI & 3D plotting, genetic algorithm — ⭐3 |
 | [🚗 Car Rental WPF](https://github.com/SSSchangerSSS/MVVM_WPF_Car_Rental_Management_App) | ![C#](https://img.shields.io/badge/C%23-00FF41?style=flat-square&logo=csharp&logoColor=black&labelColor=0D1117) | Full MVVM WPF car rental management — برنامه کامل اجاره خودرو |
 | [🎮 2D Lua Game](https://github.com/SSSchangerSSS/2d_lua_game_made_with_love2d_engine_for_android) | ![Lua](https://img.shields.io/badge/Love2D-00FF41?style=flat-square&logo=lua&logoColor=black&labelColor=0D1117) | Complete 2D game built with Love2D for Android — بازی دوبعدی اندروید |
