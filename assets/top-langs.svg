@@ -4,23 +4,23 @@
   <text x="38" y="32" font-family="Consolas, 'DejaVu Sans Mono', 'Courier New', monospace" font-size="14" fill="#00FF41">SSSchangerSSS@github:~$ ./languages --by=bytes</text>
   <text x="373" y="32" font-family="Consolas, 'DejaVu Sans Mono', 'Courier New', monospace" font-size="14" fill="#00FF41">_</text>
   <line x1="24" y1="46" x2="456" y2="46" stroke="#003b00" stroke-width="2"/>
-  <clipPath id="barclip"><rect x="24" y="62" width="432" height="14" rx="7"/></clipPath><g clip-path="url(#barclip)"><rect x="24.0" y="62" width="278.2" height="14" fill="#00FF41"/><rect x="302.2" y="62" width="96.7" height="14" fill="#00C853"/><rect x="398.9" y="62" width="35.2" height="14" fill="#64DD17"/><rect x="434.1" y="62" width="7.9" height="14" fill="#00BFA5"/><rect x="442.0" y="62" width="7.2" height="14" fill="#AEEA00"/><rect x="449.2" y="62" width="6.8" height="14" fill="#26A69A"/></g>
+  <clipPath id="barclip"><rect x="24" y="62" width="432" height="14" rx="7"/></clipPath><g clip-path="url(#barclip)"><rect x="24.0" y="62" width="254.4" height="14" fill="#00FF41"/><rect x="278.4" y="62" width="87.7" height="14" fill="#00C853"/><rect x="366.1" y="62" width="57.8" height="14" fill="#64DD17"/><rect x="423.9" y="62" width="15.9" height="14" fill="#00BFA5"/><rect x="439.8" y="62" width="10.2" height="14" fill="#AEEA00"/><rect x="450.0" y="62" width="6.0" height="14" fill="#26A69A"/></g>
   <rect x="24" y="93" width="12" height="12" rx="2" fill="#00FF41"/>
   <text x="44" y="104" font-family="Consolas, 'DejaVu Sans Mono', 'Courier New', monospace" font-size="14" fill="#8b949e">C#</text>
-  <text x="214" y="104" font-family="Consolas, 'DejaVu Sans Mono', 'Courier New', monospace" font-size="14" font-weight="bold" fill="#00FF41" text-anchor="end">64.4%</text>
+  <text x="214" y="104" font-family="Consolas, 'DejaVu Sans Mono', 'Courier New', monospace" font-size="14" font-weight="bold" fill="#00FF41" text-anchor="end">58.9%</text>
   <rect x="244" y="93" width="12" height="12" rx="2" fill="#00C853"/>
   <text x="264" y="104" font-family="Consolas, 'DejaVu Sans Mono', 'Courier New', monospace" font-size="14" fill="#8b949e">TypeScript</text>
-  <text x="434" y="104" font-family="Consolas, 'DejaVu Sans Mono', 'Courier New', monospace" font-size="14" font-weight="bold" fill="#00FF41" text-anchor="end">22.4%</text>
+  <text x="434" y="104" font-family="Consolas, 'DejaVu Sans Mono', 'Courier New', monospace" font-size="14" font-weight="bold" fill="#00FF41" text-anchor="end">20.3%</text>
   <rect x="24" y="123" width="12" height="12" rx="2" fill="#64DD17"/>
   <text x="44" y="134" font-family="Consolas, 'DejaVu Sans Mono', 'Courier New', monospace" font-size="14" fill="#8b949e">JavaScript</text>
-  <text x="214" y="134" font-family="Consolas, 'DejaVu Sans Mono', 'Courier New', monospace" font-size="14" font-weight="bold" fill="#00FF41" text-anchor="end">8.2%</text>
+  <text x="214" y="134" font-family="Consolas, 'DejaVu Sans Mono', 'Courier New', monospace" font-size="14" font-weight="bold" fill="#00FF41" text-anchor="end">13.4%</text>
   <rect x="244" y="123" width="12" height="12" rx="2" fill="#00BFA5"/>
-  <text x="264" y="134" font-family="Consolas, 'DejaVu Sans Mono', 'Courier New', monospace" font-size="14" fill="#8b949e">CSS</text>
-  <text x="434" y="134" font-family="Consolas, 'DejaVu Sans Mono', 'Courier New', monospace" font-size="14" font-weight="bold" fill="#00FF41" text-anchor="end">1.8%</text>
+  <text x="264" y="134" font-family="Consolas, 'DejaVu Sans Mono', 'Courier New', monospace" font-size="14" fill="#8b949e">HTML</text>
+  <text x="434" y="134" font-family="Consolas, 'DejaVu Sans Mono', 'Courier New', monospace" font-size="14" font-weight="bold" fill="#00FF41" text-anchor="end">3.7%</text>
   <rect x="24" y="153" width="12" height="12" rx="2" fill="#AEEA00"/>
-  <text x="44" y="164" font-family="Consolas, 'DejaVu Sans Mono', 'Courier New', monospace" font-size="14" fill="#8b949e">Java</text>
-  <text x="214" y="164" font-family="Consolas, 'DejaVu Sans Mono', 'Courier New', monospace" font-size="14" font-weight="bold" fill="#00FF41" text-anchor="end">1.7%</text>
+  <text x="44" y="164" font-family="Consolas, 'DejaVu Sans Mono', 'Courier New', monospace" font-size="14" fill="#8b949e">CSS</text>
+  <text x="214" y="164" font-family="Consolas, 'DejaVu Sans Mono', 'Courier New', monospace" font-size="14" font-weight="bold" fill="#00FF41" text-anchor="end">2.4%</text>
   <rect x="244" y="153" width="12" height="12" rx="2" fill="#26A69A"/>
-  <text x="264" y="164" font-family="Consolas, 'DejaVu Sans Mono', 'Courier New', monospace" font-size="14" fill="#8b949e">MATLAB</text>
-  <text x="434" y="164" font-family="Consolas, 'DejaVu Sans Mono', 'Courier New', monospace" font-size="14" font-weight="bold" fill="#00FF41" text-anchor="end">1.6%</text>
+  <text x="264" y="164" font-family="Consolas, 'DejaVu Sans Mono', 'Courier New', monospace" font-size="14" fill="#8b949e">Java</text>
+  <text x="434" y="164" font-family="Consolas, 'DejaVu Sans Mono', 'Courier New', monospace" font-size="14" font-weight="bold" fill="#00FF41" text-anchor="end">1.4%</text>
 </svg>
