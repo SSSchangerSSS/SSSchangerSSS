@@ -1,100 +1,87 @@
-<img src="assets/banner.svg?v=2" width="100%" alt="Sohrab Iranpak — R&D Software Engineer" />
-
 <div align="center">
-
-[![Followers](https://img.shields.io/github/followers/SSSchangerSSS?style=for-the-badge&color=00FF41&labelColor=0D1117&logo=github&logoColor=00FF41)](https://github.com/SSSchangerSSS)
-[![Public Repos](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fapi.github.com%2Fusers%2FSSSchangerSSS&query=%24.public_repos&label=Repos&style=for-the-badge&color=00FF41&labelColor=0D1117)](https://github.com/SSSchangerSSS?tab=repositories)
-[![Profile Views](https://komarev.com/ghpvc/?username=SSSchangerSSS&color=00FF41&style=for-the-badge&label=VIEWS)](https://github.com/SSSchangerSSS)
-
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/banner-dark.svg" />
+    <img src="assets/banner-light.svg" alt="Sohrab Iranpak — R&D Software Engineer" width="100%" />
+  </picture>
 </div>
 
-<div align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&pause=1200&color=00FF41&center=true&vCenter=true&random=false&width=780&height=70&lines=R%26D+Software+Engineer+%F0%9F%A4%96;Robotics+%E2%80%A2+MATLAB+%E2%80%A2+.NET+%E2%80%A2+Angular+%E2%80%A2+Flutter;Game+Developer+%E2%80%94+JavaScript+%2F+HTML5+%F0%9F%8E%AE;Building+the+future%2C+one+commit+at+a+time" alt="Typing SVG" />
-</div>
+# Sohrab Iranpak
+
+**R&D Software Engineer.** I move between robotics simulation, .NET engineering and game development — and I like finishing things: a MATLAB robot simulator with a working GUI, a complete WPF/MVVM desktop app, and browser games you can actually play.
+
+**English** · [فارسی](README.fa.md)
+
+## Selected projects
+
+### ⚔️ [The Great Rostam](https://github.com/SSSchangerSSS/The-Great-Rostam)
+
+A frame-by-frame 2D action game inspired by Ferdowsi's *Shahnameh* — Rostam against the Lion, built for the browser.
+
+- **Tech:** HTML5 Canvas · vanilla JavaScript (ES modules) · CSS UI layer · procedural WebAudio (no audio files)
+- **What works:** hand-painted sprite-sheet animation (~200 frames) locked to a combat state machine; God-of-War-style finisher QTEs; multi-layer parallax desert rendered in code; mobile-first touch controls running at 60 fps
+- ▶️ **Playable in the browser:** [ssschangersss.github.io/The-Great-Rostam](https://ssschangersss.github.io/The-Great-Rostam/)
+
+<img src="https://raw.githubusercontent.com/SSSchangerSSS/The-Great-Rostam/main/docs/screenshots/title.png" width="460" alt="The Great Rostam — in-game title screen" />
+
+### 🤖 [RRR Robot Simulation](https://github.com/SSSchangerSSS/3degree_RRR_robot_in_matlab_genetic_algorithm)
+
+A 3-DOF articulated (RRR) robot arm simulated in MATLAB on top of Peter Corke's Robotics Toolbox, with a custom-built GUI.
+
+- **Tech:** MATLAB · Peter Corke Robotics Toolbox · GUI · genetic algorithm
+- **What works:** forward and inverse kinematics solved two independent ways — the toolbox and an own transformation-matrix + genetic-algorithm implementation — computed side by side in the GUI and cross-checked against each other, with 3D visualization; tutorial video and reference PDFs included
+
+<img src="https://raw.githubusercontent.com/SSSchangerSSS/3degree_RRR_robot_in_matlab_genetic_algorithm/main/robot.PNG" width="460" alt="RRR robot simulator GUI in MATLAB — toolbox and custom solver results side by side" />
+
+### 🚗 [Car Rental Management — WPF](https://github.com/SSSchangerSSS/MVVM_WPF_Car_Rental_Management_App)
+
+A complete Windows desktop application for car-rental operations, built strictly on the MVVM pattern.
+
+- **Tech:** C# · WPF · MVVM · Entity Framework Core · SQLite · DI via Microsoft.Extensions.Hosting · AutoMapper · Material Design
+- **What's inside:** generic CRUD services, a view-model factory, navigation and inter-view-model messaging, async data access, and a store layer that keeps database round-trips low
+
+### 🎮 [2D Game with LÖVE 2D](https://github.com/SSSchangerSSS/2d_lua_game_made_with_love2d_engine_for_android)
+
+A complete 2D game written in Lua with the LÖVE 2D engine, packaged for Android.
+
+- **Tech:** Lua · LÖVE 2D · Android packaging (`FirstGame.apk` in the repo)
+- **Note:** the code is free to use and learn from; the bundled art is third-party and not for commercial use — stated up front in the repo
+
+## Focus areas & tools
+
+- **Robotics & simulation** — MATLAB, Peter Corke Robotics Toolbox, genetic algorithms, 3D visualization
+- **.NET engineering** — C#, WPF/MVVM, Entity Framework Core, SQLite, dependency injection, AutoMapper
+- **Game development** — HTML5 Canvas, JavaScript, Lua / LÖVE 2D, procedural audio & sprite pipelines
+- **Web & mobile** — Angular, TypeScript, Flutter/Dart
+- **Systems & low-level** — image processing, network packet analysis with Scapy
+
+## GitHub in numbers
 
 <div align="center">
-  <img src="assets/matrix-rain.gif" width="420" alt="Matrix digital rain" />
-</div>
-
----
-
-## ⚡ About Me | درباره‌ی من
-
-```bash
-$ whoami
-sohrab_iranpak   # R&D Software Engineer @ SandSprogrammingGroup & TheUndeniables
-
-$ cat interests.txt
-robotics 🤖 | matlab_simulation 📐 | .net_backend ⚙️ | game_dev 🎮 | web_mobile 🌐
-
-$ cat motto.txt
-"از رباتیک تا بازی‌سازی — کد می‌نویسم، دنیا می‌سازم"
-```
-
-- 🤖 **Robotics & Simulation** — RRR robot simulation with GUI & 3D plotting, genetic algorithms | شبیه‌سازی ربات و الگوریتم ژنتیک
-- ⚙️ **.NET Engineering** — Web API, WPF MVVM, database design | بک‌اند و دسکتاپ دات‌نت
-- 🎮 **Game Development** — HTML5/JS action games, Love2D | بازی‌سازی دوبعدی با جاوااسکریپت و Love2D
-- 🌐 **Web & Mobile** — Angular, TypeScript, Flutter | توسعه وب و موبایل
-- 📡 **Low-level & Systems** — image processing, network packet analysis with Scapy | پردازش تصویر و تحلیل شبکه
-
-<div align="center">
-  <img src="assets/robot-arm.gif" width="340" alt="Robotic arm simulation" />
-  &nbsp;&nbsp;
-  <img src="assets/pixel-game.gif" width="340" alt="Pixel game development" />
-</div>
-
----
-
-## 🛠 Tech Stack | تکنولوژی‌ها
-
-<div align="center">
-  <img src="https://skillicons.dev/icons?i=c,cpp,cs,dotnet,java,py,ts,js,md&perline=9" alt="core languages" />
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/github-stats-dark.svg" />
+    <img src="assets/github-stats-light.svg" alt="GitHub public stats: repositories, stars on original repos, public commits (search index), followers, current streak" width="480" />
+  </picture>
   <br/>
-  <img src="https://skillicons.dev/icons?i=angular,flutter,dart,mysql,docker,git,github,bash,linux&perline=9" alt="frameworks and tools" />
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/top-langs-dark.svg" />
+    <img src="assets/top-langs-light.svg" alt="Language breakdown by code bytes across public non-fork repositories" width="480" />
+  </picture>
 </div>
 
-<div align="center">
+Regenerated daily by GitHub Actions from public data. Commit counts come from GitHub's public commit-search index; language shares are code bytes across public non-fork repositories — a size measure, not a skill measure.
 
-![MATLAB](https://img.shields.io/badge/MATLAB-00FF41?style=for-the-badge&logo=MathWorks&logoColor=black&labelColor=0D1117)
-![JavaScript](https://img.shields.io/badge/JavaScript-00FF41?style=for-the-badge&logo=javascript&logoColor=black&labelColor=0D1117)
-![WPF](https://img.shields.io/badge/WPF%20MVVM-00FF41?style=for-the-badge&logo=.net&logoColor=black&labelColor=0D1117)
-![Robotics](https://img.shields.io/badge/Robotics%20Toolbox-00FF41?style=for-the-badge&logo=robotframework&logoColor=black&labelColor=0D1117)
-
-</div>
-
----
-
-## 🚀 Featured Projects | پروژه‌های منتخب
-
-| Project | Tech | Description |
-|---|---|---|
-| [⚔️ The-Great-Rostam](https://github.com/SSSchangerSSS/The-Great-Rostam) | ![JS](https://img.shields.io/badge/JavaScript-00FF41?style=flat-square&logo=javascript&logoColor=black&labelColor=0D1117) | 2D action game inspired by Rostam of Shahnameh, playable in browser — بازی اکشن دوبعدی رستم شاهنامه |
-| [🤖 RRR Robot Simulation](https://github.com/SSSchangerSSS/3degree_RRR_robot_in_matlab_genetic_algorithm) | ![MATLAB](https://img.shields.io/badge/MATLAB-00FF41?style=flat-square&logo=mathworks&logoColor=black&labelColor=0D1117) | RRR robot with GUI & 3D plotting, genetic algorithm — ⭐3 |
-| [🚗 Car Rental WPF](https://github.com/SSSchangerSSS/MVVM_WPF_Car_Rental_Management_App) | ![C#](https://img.shields.io/badge/C%23-00FF41?style=flat-square&logo=csharp&logoColor=black&labelColor=0D1117) | Full MVVM WPF car rental management — برنامه کامل اجاره خودرو |
-| [🎮 2D Lua Game](https://github.com/SSSchangerSSS/2d_lua_game_made_with_love2d_engine_for_android) | ![Lua](https://img.shields.io/badge/Love2D-00FF41?style=flat-square&logo=lua&logoColor=black&labelColor=0D1117) | Complete 2D game built with Love2D for Android — بازی دوبعدی اندروید |
-
----
-
-## 📊 GitHub Stats | آمار گیت‌هاب
-
-<div align="center">
-  <img height="190em" src="assets/github-stats.svg" alt="GitHub stats" />
-  <img height="190em" src="https://streak-stats.demolab.com?user=SSSchangerSSS&hide_border=true&background=0D1117&border=00FF41&stroke=00FF41&ring=00FF41&fire=00FF41&currStreakLabel=00FF41&sideLabels=00FF41&dates=00E703&currStreakNum=FFFFFF&sideNums=FFFFFF" alt="GitHub streak" />
-  <img height="190em" src="assets/top-langs.svg" alt="Top languages" />
-</div>
-
----
-
-## 🐍 Contribution Snake | مار مشارکت‌ها
-
+<details>
+<summary>🐍 Contribution snake <em>(the one animated element on this page)</em></summary>
+<br/>
 <div align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SSSchangerSSS/SSSchangerSSS/output/github-contribution-grid-snake-dark.svg?v=4" />
     <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/SSSchangerSSS/SSSchangerSSS/output/github-contribution-grid-snake.svg?v=4" />
-    <img alt="contribution snake animation" src="https://raw.githubusercontent.com/SSSchangerSSS/SSSchangerSSS/output/github-contribution-grid-snake.svg?v=4" />
+    <img alt="contribution snake animation — it grows as it eats contribution cells" src="https://raw.githubusercontent.com/SSSchangerSSS/SSSchangerSSS/output/github-contribution-grid-snake.svg?v=4" />
   </picture>
 </div>
+</details>
 
----
+## Contact
 
-<img src="assets/footer.svg?v=2" width="100%" alt="EOF" />
+The best way to reach me is GitHub — open an issue or a discussion in any of the repositories above.

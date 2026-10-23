@@ -135,6 +135,8 @@ def level_of(count):
 # --------------------------------------------------------------------- path --
 def build_path(cells):
     """Serpentine walk row-by-row over the columns that contain any green."""
+    if not cells:
+        raise ValueError("empty contribution calendar")
     green_cols = sorted({c for (c, r), v in cells.items() if v > 0})
     if not green_cols:
         green_cols = sorted({c for (c, r) in cells})
@@ -161,8 +163,9 @@ class Timeline(object):
     def __init__(self, path, cells):
         self.path = path
         self.N = N = len(path)
+        self.LEN_PX = PITCH * (N - 1)                    # total path length
         times = [0.0]
-        lens = [BASE_LEN * PITCH]
+        lens = [min(BASE_LEN * PITCH, self.LEN_PX)]
         eaten = 0
         for i in range(1, N):
             step = STEP_MS
@@ -170,9 +173,9 @@ class Timeline(object):
                 eaten += 1
                 step += BITE_EXTRA_MS
             times.append(times[-1] + step)
-            lens.append((BASE_LEN + GROW * eaten) * PITCH)
+            # one cell per bite; never longer than the path itself
+            lens.append(min((BASE_LEN + GROW * eaten) * PITCH, self.LEN_PX))
         self.eaten = eaten
-        self.LEN_PX = PITCH * (N - 1)                    # total path length
         self.head = [PITCH * i for i in range(N)]        # arclength of head
         self.off = [lens[i] - self.head[i] for i in range(N)]   # dash offset
         self.len = lens
@@ -443,7 +446,12 @@ def main():
 
     if not TOKEN:
         raise SystemExit("no token: set SNAKE_TOKEN/GITHUB_TOKEN")
-    cells = fetch_cells(OWNER, TOKEN)
+    try:
+        cells = fetch_cells(OWNER, TOKEN)
+    except Exception as e:
+        raise SystemExit("calendar fetch failed (%s); keeping previous snake output" % e)
+    if not cells:
+        raise SystemExit("empty contribution calendar; keeping previous snake output")
     path, c0, c1 = build_path(cells)
     tl = Timeline(path, cells)
 
@@ -451,8 +459,8 @@ def main():
     print("grid: cols %d..%d (%d) x 7 rows = %d cells | steps %d | bites %d"
           % (c0, c1, c1 - c0 + 1, len(cells), tl.N, bites))
     print("body: %d cells (%.0f px) -> %d cells (%.0f px) | loop %.1fs"
-          % (BASE_LEN, BASE_LEN * PITCH, BASE_LEN + GROW * bites,
-             (BASE_LEN + GROW * bites) * PITCH, tl.TOT / 1000.0))
+          % (BASE_LEN, BASE_LEN * PITCH, tl.len[-1] // PITCH, tl.len[-1],
+             tl.TOT / 1000.0))
 
     if args.frame is not None:
         svg = generate(args.pal, cells, path, c0, tl, freeze_ms=args.frame)

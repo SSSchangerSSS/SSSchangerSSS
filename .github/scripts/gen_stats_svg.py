@@ -1,168 +1,387 @@
 #!/usr/bin/env python3
-"""Self-hosted matrix-style GitHub stats cards generator.
-Fetches live data from the GitHub API and renders two SVG cards:
-  assets/github-stats.svg  — stars, repos, commits, followers, account age
-  assets/top-langs.svg     — language breakdown by bytes
+"""Self-hosted GitHub stats cards (v2 — neutral surfaces, emerald accent).
 
-Uses ONLY the Python stdlib so it runs anywhere (GitHub Actions, CI, local).
-Token (optional, raises rate limits): env GH_STATS_TOKEN or GITHUB_TOKEN.
+Outputs four SVG cards into assets/:
+  github-stats-light.svg / github-stats-dark.svg
+  top-langs-light.svg    / top-langs-dark.svg
+
+Design & honesty rules (enforced here, documented in docs/profile-maintenance.md):
+  * repos listing is paginated (per_page=100, capped pages)
+  * forks are excluded from stars AND from language bytes (consistent policy)
+  * language percentages are a share of TOTAL code bytes across the counted
+    public non-fork repos — never presented as skill levels
+  * the commit number comes from the GitHub commit-search index (public) and
+    is labelled as such — it is not claimed to be "every commit ever"
+  * API errors never become fake-valid zeros: missing values render as "—"
+    and the card footer says "partial data"; if the primary fetches all fail
+    the script exits non-zero and the previous SVG files are left untouched
+  * every successful generation embeds its UTC timestamp in the card footer
+  * file writes are atomic (tmp file + os.replace)
+
+Stdlib only. Env: GH_STATS_TOKEN or GITHUB_TOKEN (raises rate limits).
 """
 import json
 import os
+import sys
+import time
+import urllib.error
 import urllib.request
 from datetime import datetime, timezone
 
-OWNER = "SSSchangerSSS"
-OUT_DIR = os.path.join(os.path.dirname(__file__), "..", "..", "assets")
-OUT_DIR = os.path.abspath(OUT_DIR)
+OWNER = os.environ.get("STATS_OWNER", "SSSchangerSSS")
+OUT_DIR = os.environ.get("STATS_OUT") or os.path.join(
+    os.path.dirname(os.path.abspath(__file__)), "..", "..", "assets")
 
-BG = "#0d1117"
-BORDER = "#00FF41"
-HEADER = "#00FF41"
-LABEL = "#8b949e"
-VALUE = "#00FF41"
-DIM = "#003b00"
-FONT = "Consolas, 'DejaVu Sans Mono', 'Courier New', monospace"
+CARD_W, CARD_H = 480, 224
+TOP_LANGS = 6
+PAGE_SIZE, MAX_PAGES = 100, 10
+RETRIES, TIMEOUT = 3, 30
 
-# matrix-compatible language palette (greens -> teals -> lime)
-LANG_COLORS = ["#00FF41", "#00C853", "#64DD17", "#00BFA5", "#AEEA00", "#26A69A", "#9CCC65", "#C6FF00"]
+FONT = "ui-monospace, 'Cascadia Code', 'SF Mono', Menlo, Consolas, monospace"
+
+THEMES = {
+    "dark": {
+        "bg": "#0d1117", "border": "#21262d", "fg": "#e6edf3", "muted": "#7d8590",
+        "dim": "#6e7681", "accent": "#10b981", "other": "#30363d",
+        "langs": ["#3fb950", "#2dd4bf", "#7ee787", "#0e7490", "#58a6ff", "#8b949e"],
+    },
+    "light": {
+        "bg": "#ffffff", "border": "#d0d7de", "fg": "#1f2328", "muted": "#57606a",
+        "dim": "#6e7681", "accent": "#0e8a4d", "other": "#eaeef2",
+        "langs": ["#1a7f37", "#0b7285", "#0969da", "#2da44e", "#6e7681", "#3fb950"],
+    },
+}
+
+
+# --------------------------------------------------------------- transports --
+class FetchError(Exception):
+    pass
+
+
+class RateLimited(FetchError):
+    pass
+
+
+def _attempt(op, retries=RETRIES):
+    """Run op() with limited retries on transient failures."""
+    last = None
+    for attempt in range(retries):
+        try:
+            return op()
+        except RateLimited:
+            raise
+        except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError, OSError) as e:
+            last = e
+            if isinstance(e, urllib.error.HTTPError) and e.code < 500:
+                break                     # 4xx: retrying will not help
+            if attempt < retries - 1:
+                time.sleep(1 + attempt)   # 1s, 2s backoff
+    raise FetchError(str(last))
 
 
 def api_get(path, token):
-    url = path if path.startswith("http") else "https://api.github.com" + path
-    req = urllib.request.Request(url)
-    req.add_header("Accept", "application/vnd.github+json")
-    req.add_header("User-Agent", "stats-card-generator")
-    if token:
-        req.add_header("Authorization", "Bearer " + token)
-    with urllib.request.urlopen(req, timeout=30) as r:
-        return json.loads(r.read().decode())
+    """GET a REST endpoint. Raises FetchError/RateLimited."""
+    def op():
+        req = urllib.request.Request("https://api.github.com" + path)
+        req.add_header("Accept", "application/vnd.github+json")
+        req.add_header("User-Agent", "stats-card-generator")
+        if token:
+            req.add_header("Authorization", "Bearer " + token)
+        with urllib.request.urlopen(req, timeout=TIMEOUT) as r:
+            if r.headers.get("X-RateLimit-Remaining") == "0":
+                raise RateLimited("rate limit exhausted")
+            return json.loads(r.read().decode())
+    return _attempt(op)
 
 
-def fetch_stats(token):
-    stats = {"stars": 0, "public_repos": 0, "followers": 0, "commits": None,
-             "created_at": None, "langs": {}}
-    try:
-        u = api_get(f"/users/{OWNER}", token)
-        stats["public_repos"] = u.get("public_repos", 0)
-        stats["followers"] = u.get("followers", 0)
-        stats["created_at"] = u.get("created_at")
-    except Exception as e:
-        print("user fetch failed:", e)
-    try:
-        repos = api_get(f"/users/{OWNER}/repos?per_page=100&type=owner", token)
-        for r in repos:
-            if not r.get("fork"):
-                stats["stars"] += r.get("stargazers_count", 0)
-            # language bytes per repo (public data)
-            try:
-                langs = api_get(f"/repos/{OWNER}/{r['name']}/languages", token)
-                for k, v in langs.items():
-                    stats["langs"][k] = stats["langs"].get(k, 0) + v
-            except Exception:
-                pass
-    except Exception as e:
-        print("repos fetch failed:", e)
-    try:
-        s = api_get(f"/search/commits?q=author:{OWNER}&per_page=1", token)
-        stats["commits"] = s.get("total_count")
-    except Exception as e:
-        print("commit search failed:", e)
-    return stats
+def graphql(query, token):
+    """POST a GraphQL document. Raises FetchError/RateLimited."""
+    def op():
+        req = urllib.request.Request("https://api.github.com/graphql",
+                                     data=json.dumps({"query": query}).encode(),
+                                     method="POST")
+        req.add_header("Content-Type", "application/json")
+        req.add_header("User-Agent", "stats-card-generator")
+        if token:
+            req.add_header("Authorization", "Bearer " + token)
+        with urllib.request.urlopen(req, timeout=TIMEOUT) as r:
+            if r.headers.get("X-RateLimit-Remaining") == "0":
+                raise RateLimited("rate limit exhausted")
+            return json.loads(r.read().decode())
+    return _attempt(op)
 
 
-def account_age(created_at):
+# ------------------------------------------------------------ data pipeline --
+def paginate(fetch_page, max_pages=MAX_PAGES):
+    """Collect all pages until a short page arrives (or the cap is hit)."""
+    items, page = [], 1
+    while page <= max_pages:
+        chunk = fetch_page(page) or []
+        items.extend(chunk)
+        if len(chunk) < PAGE_SIZE:
+            break
+        page += 1
+    return items
+
+
+def aggregate_repos(repos, lang_fetcher):
+    """Split repositories into honest aggregates.
+
+    Forks are excluded everywhere. Returns (original_count, stars, lang_bytes,
+    lang_errors). lang_fetcher(full_name) -> dict or raises FetchError.
+    """
+    count, stars, langs, errors = 0, 0, {}, []
+    for r in repos:
+        if r.get("fork"):
+            continue
+        count += 1
+        stars += int(r.get("stargazers_count") or 0)
+        try:
+            for k, v in (lang_fetcher(r["full_name"]) or {}).items():
+                langs[k] = langs.get(k, 0) + int(v)
+        except FetchError as e:
+            errors.append("%s: %s" % (r.get("name", "?"), e))
+    return count, stars, langs, errors
+
+
+def current_streak(days):
+    """Consecutive contribution days ending today (or yesterday if today is 0).
+
+    days: list of ints ordered oldest -> newest. None if no data.
+    """
+    if days is None:
+        return None
+    i = len(days) - 1
+    if i < 0:
+        return 0
+    if days[i] == 0 and i > 0:
+        i -= 1
+    streak = 0
+    while i >= 0 and days[i] > 0:
+        streak += 1
+        i -= 1
+    return streak
+
+
+def lang_rows(langs, top=TOP_LANGS):
+    """Top languages with a share-of-TOTAL-bytes percentage, plus 'other'.
+
+    The denominator is the sum of ALL bytes, not just the displayed rows.
+    """
+    items = sorted(langs.items(), key=lambda kv: -kv[1])
+    total = sum(v for _, v in items)
+    if total <= 0:
+        return [], 0
+    rows = [(n, v, 100.0 * v / total) for n, v in items[:top]]
+    other = sum(v for _, v in items[top:])
+    return rows, other
+
+
+def account_age(created_at, now=None):
     if not created_at:
-        return "N/A"
+        return None
     dt = datetime.fromisoformat(created_at.replace("Z", "+00:00"))
-    now = datetime.now(timezone.utc)
+    now = now or datetime.now(timezone.utc)
     months = (now.year - dt.year) * 12 + (now.month - dt.month)
+    if now.day < dt.day:
+        months -= 1
+    months = max(months, 0)
     y, m = divmod(months, 12)
-    return f"{y}y {m}m"
+    return "%dy %dm" % (y, m) if y else "%dm" % m
 
 
-def svg_card(title_line, inner_rows, width, height):
-    """Common card shell: dark bg, green border, header with blinking cursor."""
-    cursor_x = 24 + int(len(title_line) * 7.6)
-    return f'''<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">
-  <rect x="1" y="1" width="{width - 2}" height="{height - 2}" rx="12" fill="{BG}" stroke="{BORDER}" stroke-opacity="0.4" stroke-width="1.5"/>
-  <circle cx="24" cy="27" r="4" fill="{HEADER}"/>
-  <text x="38" y="32" font-family="{FONT}" font-size="14" fill="{HEADER}">{title_line}</text>
-  <text x="{cursor_x}" y="32" font-family="{FONT}" font-size="14" fill="{HEADER}">_</text>
-  <line x1="24" y1="46" x2="{width - 24}" y2="46" stroke="{DIM}" stroke-width="2"/>
-  {inner_rows}
-</svg>'''
+def fetch_all(token):
+    """Fetch everything; never raises on a single source failing — the
+    returned dict records which sources failed in .errors[]."""
+    s = {"user": None, "repos": [], "langs": {}, "lang_errors": [],
+         "original_repos": 0, "stars": 0, "commits": None, "streak": None,
+         "errors": []}
+
+    try:
+        s["user"] = api_get("/users/%s" % OWNER, token)
+    except FetchError as e:
+        s["errors"].append("user: %s" % e)
+
+    try:
+        s["repos"] = paginate(
+            lambda p: api_get("/users/%s/repos?per_page=%d&type=owner&page=%d"
+                              % (OWNER, PAGE_SIZE, p), token))
+    except FetchError as e:
+        s["errors"].append("repos: %s" % e)
+
+    def lang_fetcher(full_name):
+        return api_get("/repos/%s/languages" % full_name, token)
+
+    s["original_repos"], s["stars"], s["langs"], s["lang_errors"] = \
+        aggregate_repos(s["repos"], lang_fetcher)
+    s["errors"].extend("languages[%s]" % e for e in s["lang_errors"])
+
+    try:
+        q = "/search/commits?q=author:%s&per_page=1" % OWNER
+        s["commits"] = api_get(q, token).get("total_count")
+    except FetchError as e:
+        s["errors"].append("commit-search: %s" % e)
+
+    try:
+        doc = graphql(
+            '{ user(login: "%s") { contributionsCollection { contributionCalendar { '
+            'weeks { contributionDays { date contributionCount } } } } } }' % OWNER, token)
+        weeks = doc["data"]["user"]["contributionsCollection"]["contributionCalendar"]["weeks"]
+        days = [d["contributionCount"] for w in weeks for d in w["contributionDays"]]
+        s["streak"] = current_streak(days)
+    except (FetchError, KeyError, TypeError) as e:
+        s["errors"].append("calendar: %s" % e)
+
+    return s
 
 
-def build_stats_svg(s):
-    width, height = 480, 212
+# ----------------------------------------------------------------- drawing --
+def esc(s):
+    return str(s).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+
+
+def card_shell(theme, title, subtitle, footer_text):
+    t = THEMES[theme]
+    head = (
+        '<rect x="24" y="21" width="10" height="10" rx="2" fill="%(accent)s"/>'
+        '<text x="42" y="31" font-family="%(font)s" font-size="12" letter-spacing="2" '
+        'fill="%(fg)s">%(title)s</text>'
+        '<text x="456" y="31" font-family="%(font)s" font-size="10.5" fill="%(muted)s" '
+        'text-anchor="end">%(subtitle)s</text>'
+        '<line x1="24" y1="46" x2="456" y2="46" stroke="%(border)s"/>'
+        % {"accent": t["accent"], "font": FONT, "fg": t["fg"], "muted": t["muted"],
+           "border": t["border"], "title": esc(title), "subtitle": esc(subtitle)})
+    foot = ('<text x="24" y="212" font-family="%(font)s" font-size="9.5" fill="%(dim)s">'
+            '%(foot)s</text>'
+            % {"font": FONT, "dim": t["dim"], "foot": esc(footer_text)})
+    return ('<svg xmlns="http://www.w3.org/2000/svg" width="%d" height="%d" '
+            'viewBox="0 0 %d %d" role="img">'
+            '<rect x="0.5" y="0.5" width="%d" height="%d" rx="10" fill="%s" stroke="%s"/>'
+            '%s%s%s</svg>'
+            % (CARD_W, CARD_H, CARD_W, CARD_H, CARD_W - 1, CARD_H - 1,
+               t["bg"], t["border"], head, "{BODY}", foot))
+
+
+def fmt_val(v):
+    if v is None:
+        return "—"
+    return "{:,}".format(v) if isinstance(v, int) else str(v)
+
+
+def build_stats_svg(s, theme, stamp, partial):
+    t = THEMES[theme]
+    u = s.get("user") or {}
     rows = [
-        ("total_stars", str(s["stars"])),
-        ("public_repos", str(s["public_repos"])),
-        ("total_commits", f"{s['commits']}+" if s["commits"] is not None else "N/A"),
-        ("followers", str(s["followers"])),
-        ("account_age", account_age(s["created_at"])),
+        ("public repos", u.get("public_repos")),
+        ("stars · original repos", s["stars"] if s["repos"] else None),
+        ("commits · public search index", s["commits"]),
+        ("followers", u.get("followers")),
+        ("current streak · days", s["streak"]),
     ]
-    parts = []
-    y = 74
-    for label, value in rows:
-        parts.append(f'<text x="24" y="{y}" font-family="{FONT}" font-size="15" fill="{LABEL}">&gt; {label}:</text>')
-        parts.append(f'<text x="{width - 24}" y="{y}" font-family="{FONT}" font-size="15" font-weight="bold" fill="{VALUE}" text-anchor="end">{value}</text>')
-        y += 28
-    inner = "\n  ".join(parts)
-    return svg_card(f"{OWNER}@github:~$ ./stats --live", inner, width, height)
+    body = []
+    y = 76
+    for label, val in rows:
+        body.append('<text x="24" y="%d" font-family="%s" font-size="13" fill="%s">%s</text>'
+                    % (y, FONT, t["muted"], esc(label)))
+        body.append('<text x="456" y="%d" font-family="%s" font-size="14" '
+                    'font-weight="600" fill="%s" text-anchor="end">%s</text>'
+                    % (y, FONT, t["fg"], esc(fmt_val(val))))
+        y += 27
+    svg = card_shell(theme, "GITHUB — PUBLIC STATS", "@" + OWNER,
+                     "%s · %s" % (stamp, "partial data" if partial else "live data"))
+    return svg.replace("{BODY}", "".join(body))
 
 
-def build_langs_svg(s):
-    width, height = 480, 212
-    langs = sorted(s["langs"].items(), key=lambda kv: -kv[1])[:6]
-    total = sum(v for _, v in langs) or 1
-    if not langs:
-        inner = f'<text x="24" y="90" font-family="{FONT}" font-size="14" fill="{LABEL}">&gt; no language data available</text>'
-        return svg_card(f"{OWNER}@github:~$ ./languages", inner, width, height)
+def build_langs_svg(s, theme, stamp, partial=False):
+    t = THEMES[theme]
+    rows, other = lang_rows(s["langs"])
+    body = []
+    if not rows:
+        body.append('<text x="24" y="120" font-family="%s" font-size="13" fill="%s">'
+                    'no language data available yet</text>' % (FONT, t["muted"]))
+    else:
+        # stacked bar: top langs + other
+        bx, by, bw, bh = 24, 64, CARD_W - 48, 12
+        total = sum(v for _, v, _ in rows) + other
+        segs, x = [], float(bx)
+        for i, (name, v, _) in enumerate(rows):
+            w = bw * v / total
+            segs.append('<rect x="%.1f" y="%d" width="%.1f" height="%d" fill="%s"/>'
+                        % (x, by, w, bh, t["langs"][i % len(t["langs"])]))
+            x += w
+        if other > 0:
+            segs.append('<rect x="%.1f" y="%d" width="%.1f" height="%d" fill="%s"/>'
+                        % (x, by, bx + bw - x, bh, t["other"]))
+        body.append('<clipPath id="bar-%s"><rect x="%d" y="%d" width="%d" height="%d" rx="6"/></clipPath>'
+                    % (theme, bx, by, bw, bh))
+        body.append('<g clip-path="url(#bar-%s)">%s</g>' % (theme, "".join(segs)))
+        # legend: 2 columns x 3 rows
+        for i, (name, v, pct) in enumerate(rows):
+            col, row = i % 2, i // 2
+            cx, cy = 24 + col * 220, 108 + row * 27
+            body.append('<rect x="%d" y="%d" width="10" height="10" rx="2" fill="%s"/>'
+                        % (cx, cy - 10, t["langs"][i % len(t["langs"])]))
+            body.append('<text x="%d" y="%d" font-family="%s" font-size="12.5" fill="%s">%s</text>'
+                        % (cx + 18, cy, FONT, t["fg"], esc(name)))
+            body.append('<text x="%d" y="%d" font-family="%s" font-size="12.5" '
+                        'font-weight="600" fill="%s" text-anchor="end">%.1f%%</text>'
+                        % (cx + 202, cy, FONT, t["muted"], pct))
+        if other > 0:
+            body.append('<text x="244" y="189" font-family="%s" font-size="11" fill="%s">'
+                        '+ other languages %.1f%%</text>' % (FONT, t["dim"],
+                                                             100.0 * other / total))
+    svg = card_shell(theme, "CODE — BY BYTES", "@" + OWNER,
+                     "share of code bytes · public non-fork repos · %s%s"
+                     % (stamp, " · partial data" if partial else ""))
+    return svg.replace("{BODY}", "".join(body))
 
-    # stacked bar with rounded clip
-    bar_x, bar_y, bar_w, bar_h = 24, 62, width - 48, 14
-    segs = []
-    x = bar_x
-    for i, (name, val) in enumerate(langs):
-        w = bar_w * val / total
-        color = LANG_COLORS[i % len(LANG_COLORS)]
-        segs.append(f'<rect x="{x:.1f}" y="{bar_y}" width="{w:.1f}" height="{bar_h}" fill="{color}"/>')
-        x += w
-    clip_id = "barclip"
-    bar_group = (f'<clipPath id="{clip_id}"><rect x="{bar_x}" y="{bar_y}" width="{bar_w}" height="{bar_h}" rx="7"/></clipPath>'
-                 f'<g clip-path="url(#{clip_id})">' + "".join(segs) + "</g>")
 
-    # legend: 2 columns x 3 rows
-    parts = [bar_group]
-    lx, ly = 24, 104
-    for i, (name, val) in enumerate(langs):
-        col = i % 2
-        row = i // 2
-        cx = lx + col * 220
-        cy = ly + row * 30
-        color = LANG_COLORS[i % len(LANG_COLORS)]
-        pct = 100.0 * val / total
-        parts.append(f'<rect x="{cx}" y="{cy - 11}" width="12" height="12" rx="2" fill="{color}"/>')
-        parts.append(f'<text x="{cx + 20}" y="{cy}" font-family="{FONT}" font-size="14" fill="{LABEL}">{name}</text>')
-        parts.append(f'<text x="{cx + 190}" y="{cy}" font-family="{FONT}" font-size="14" font-weight="bold" fill="{VALUE}" text-anchor="end">{pct:.1f}%</text>')
-    inner = "\n  ".join(parts)
-    return svg_card(f"{OWNER}@github:~$ ./languages --by=bytes", inner, width, height)
+# -------------------------------------------------------------------- main --
+def write_text_atomic(path, text):
+    tmp = path + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        f.write(text)
+        f.flush()
+        os.fsync(f.fileno())
+    os.replace(tmp, path)
+
+
+def render_cards(s, out_dir, now=None):
+    """Render all four cards; returns list of written paths."""
+    now = now or datetime.now(timezone.utc)
+    stamp = now.strftime("%Y-%m-%d %H:%M UTC")
+    partial = bool(s["errors"])
+    written = []
+    for theme in ("light", "dark"):
+        for name, builder in (("github-stats", build_stats_svg), ("top-langs", build_langs_svg)):
+            p = os.path.join(out_dir, "%s-%s.svg" % (name, theme))
+            write_text_atomic(p, builder(s, theme, stamp, partial))
+            written.append(p)
+    return written
 
 
 def main():
     token = os.environ.get("GH_STATS_TOKEN") or os.environ.get("GITHUB_TOKEN")
-    stats = fetch_stats(token)
-    os.makedirs(OUT_DIR, exist_ok=True)
-    with open(os.path.join(OUT_DIR, "github-stats.svg"), "w", encoding="utf-8") as f:
-        f.write(build_stats_svg(stats))
-    with open(os.path.join(OUT_DIR, "top-langs.svg"), "w", encoding="utf-8") as f:
-        f.write(build_langs_svg(stats))
-    print("stats:", {k: v for k, v in stats.items() if k != "langs"})
-    print("languages:", sorted(stats["langs"].items(), key=lambda kv: -kv[1])[:6])
-    print("SVGs written to", OUT_DIR)
+    s = fetch_all(token)
+    primary_failed = (s["user"] is None) and (not s["repos"])
+    if primary_failed:
+        # Keep the last valid cards on disk; do not publish a fake-looking card.
+        print("FATAL: all primary data fetches failed; previous SVGs left untouched",
+              file=sys.stderr)
+        for e in s["errors"]:
+            print("  -", e, file=sys.stderr)
+        return 1
+
+    written = render_cards(s, os.path.abspath(OUT_DIR))
+    print("user:", bool(s["user"]), "| repos fetched:", len(s["repos"]),
+          "| original:", s["original_repos"], "| stars:", s["stars"],
+          "| commits:", s["commits"], "| streak:", s["streak"])
+    print("errors:", s["errors"] if s["errors"] else "none")
+    print("languages:", sorted(s["langs"].items(), key=lambda kv: -kv[1])[:TOP_LANGS])
+    for p in written:
+        print("wrote", p)
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
