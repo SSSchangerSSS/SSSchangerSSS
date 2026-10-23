@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Self-hosted GitHub stats cards (v2 — neutral surfaces, emerald accent).
+"""Self-hosted GitHub stats cards (v3 — Matrix terminal surfaces).
 
-Outputs four SVG cards into assets/:
-  github-stats-light.svg / github-stats-dark.svg
-  top-langs-light.svg    / top-langs-dark.svg
+Outputs two SVG cards into assets/ (one Matrix-terminal style for BOTH
+color schemes — the dark panel is the profile's visual identity):
+  github-stats.svg
+  top-langs.svg
 
 Design & honesty rules (enforced here, documented in docs/profile-maintenance.md):
   * repos listing is paginated (per_page=100, capped pages)
@@ -47,17 +48,14 @@ RETRIES, TIMEOUT = 3, 30
 
 FONT = "ui-monospace, 'Cascadia Code', 'SF Mono', Menlo, Consolas, monospace"
 
-THEMES = {
-    "dark": {
-        "bg": "#0d1117", "border": "#21262d", "fg": "#e6edf3", "muted": "#7d8590",
-        "dim": "#6e7681", "accent": "#10b981", "other": "#30363d",
-        "langs": ["#3fb950", "#2dd4bf", "#7ee787", "#0e7490", "#58a6ff", "#8b949e"],
-    },
-    "light": {
-        "bg": "#ffffff", "border": "#d0d7de", "fg": "#1f2328", "muted": "#57606a",
-        "dim": "#6e7681", "accent": "#0e8a4d", "other": "#eaeef2",
-        "langs": ["#1a7f37", "#0b7285", "#0969da", "#2da44e", "#6e7681", "#3fb950"],
-    },
+# Matrix terminal surface — same visual family as the banner and the snake
+# panel (deep black, phosphor green, thin #123D24 lines). Do not neutralize.
+THEME = {
+    "bg": "#07110B", "border": "#1E5230", "grid": "#123D24",
+    "fg": "#D8FFE5", "muted": "#8BAB96", "dim": "#6E8A78",
+    "accent": "#00FF41", "other": "#0D2A18",
+    # monochrome green ramp: position encodes rank, not skill
+    "langs": ["#00FF41", "#2FE075", "#24B862", "#1B8A4C", "#145C36", "#0F3D24"],
 }
 
 
@@ -251,26 +249,33 @@ def esc(s):
     return str(s).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 
-def card_shell(theme, title, subtitle, footer_text):
-    t = THEMES[theme]
+def card_shell(title, subtitle, footer_text):
+    t = THEME
     head = (
         '<rect x="24" y="21" width="10" height="10" rx="2" fill="%(accent)s"/>'
         '<text x="42" y="31" font-family="%(font)s" font-size="12" letter-spacing="2" '
-        'fill="%(fg)s">%(title)s</text>'
+        'fill="%(accent)s">%(title)s</text>'
         '<text x="456" y="31" font-family="%(font)s" font-size="10.5" fill="%(muted)s" '
         'text-anchor="end">%(subtitle)s</text>'
-        '<line x1="24" y1="46" x2="456" y2="46" stroke="%(border)s"/>'
-        % {"accent": t["accent"], "font": FONT, "fg": t["fg"], "muted": t["muted"],
-           "border": t["border"], "title": esc(title), "subtitle": esc(subtitle)})
+        '<line x1="24" y1="46" x2="456" y2="46" stroke="%(grid)s"/>'
+        % {"accent": t["accent"], "font": FONT, "muted": t["muted"],
+           "grid": t["grid"], "title": esc(title), "subtitle": esc(subtitle)})
     foot = ('<text x="24" y="212" font-family="%(font)s" font-size="9.5" fill="%(dim)s">'
             '%(foot)s</text>'
             % {"font": FONT, "dim": t["dim"], "foot": esc(footer_text)})
+    scan = ('<pattern id="scan" width="4" height="4" patternUnits="userSpaceOnUse">'
+            '<rect width="4" height="4" fill="%(bg)s"/>'
+            '<line x1="0" y1="0" x2="4" y2="0" stroke="%(accent)s" stroke-opacity="0.05"/>'
+            '</pattern>'
+            % {"bg": t["bg"], "accent": t["accent"]})
     return ('<svg xmlns="http://www.w3.org/2000/svg" width="%d" height="%d" '
             'viewBox="0 0 %d %d" role="img">'
-            '<rect x="0.5" y="0.5" width="%d" height="%d" rx="10" fill="%s" stroke="%s"/>'
+            '<defs>%s</defs>'
+            '<rect x="0.5" y="0.5" width="%d" height="%d" rx="10" fill="url(#scan)" stroke="%s"/>'
+            '<rect x="0" y="0" width="4" height="%d" rx="2" fill="%s" fill-opacity="0.85"/>'
             '%s%s%s</svg>'
-            % (CARD_W, CARD_H, CARD_W, CARD_H, CARD_W - 1, CARD_H - 1,
-               t["bg"], t["border"], head, "{BODY}", foot))
+            % (CARD_W, CARD_H, CARD_W, CARD_H, scan, CARD_W - 1, CARD_H - 1,
+               t["border"], CARD_H, t["accent"], head, "{BODY}", foot))
 
 
 def fmt_val(v):
@@ -279,8 +284,8 @@ def fmt_val(v):
     return "{:,}".format(v) if isinstance(v, int) else str(v)
 
 
-def build_stats_svg(s, theme, stamp, partial):
-    t = THEMES[theme]
+def build_stats_svg(s, stamp, partial):
+    t = THEME
     u = s.get("user") or {}
     rows = [
         ("public repos", u.get("public_repos")),
@@ -292,19 +297,21 @@ def build_stats_svg(s, theme, stamp, partial):
     body = []
     y = 76
     for label, val in rows:
+        body.append('<line x1="24" y1="%d" x2="456" y2="%d" stroke="%s" stroke-opacity="0.5"/>'
+                    % (y - 17, y - 17, t["grid"]))
         body.append('<text x="24" y="%d" font-family="%s" font-size="13" fill="%s">%s</text>'
                     % (y, FONT, t["muted"], esc(label)))
         body.append('<text x="456" y="%d" font-family="%s" font-size="14" '
                     'font-weight="600" fill="%s" text-anchor="end">%s</text>'
                     % (y, FONT, t["fg"], esc(fmt_val(val))))
         y += 27
-    svg = card_shell(theme, "GITHUB — PUBLIC STATS", "@" + OWNER,
+    svg = card_shell("GITHUB — PUBLIC STATS", "@" + OWNER,
                      "%s · %s" % (stamp, "partial data" if partial else "live data"))
     return svg.replace("{BODY}", "".join(body))
 
 
-def build_langs_svg(s, theme, stamp, partial=False):
-    t = THEMES[theme]
+def build_langs_svg(s, stamp, partial=False):
+    t = THEME
     rows, other = lang_rows(s["langs"])
     body = []
     if not rows:
@@ -323,9 +330,9 @@ def build_langs_svg(s, theme, stamp, partial=False):
         if other > 0:
             segs.append('<rect x="%.1f" y="%d" width="%.1f" height="%d" fill="%s"/>'
                         % (x, by, bx + bw - x, bh, t["other"]))
-        body.append('<clipPath id="bar-%s"><rect x="%d" y="%d" width="%d" height="%d" rx="6"/></clipPath>'
-                    % (theme, bx, by, bw, bh))
-        body.append('<g clip-path="url(#bar-%s)">%s</g>' % (theme, "".join(segs)))
+        body.append('<clipPath id="bar"><rect x="%d" y="%d" width="%d" height="%d" rx="6"/></clipPath>'
+                    % (bx, by, bw, bh))
+        body.append('<g clip-path="url(#bar)">%s</g>' % "".join(segs))
         # legend: 2 columns x 3 rows
         for i, (name, v, pct) in enumerate(rows):
             col, row = i % 2, i // 2
@@ -341,7 +348,7 @@ def build_langs_svg(s, theme, stamp, partial=False):
             body.append('<text x="244" y="189" font-family="%s" font-size="11" fill="%s">'
                         '+ other languages %.1f%%</text>' % (FONT, t["dim"],
                                                              100.0 * other / total))
-    svg = card_shell(theme, "CODE — BY BYTES", "@" + OWNER,
+    svg = card_shell("CODE — BY BYTES", "@" + OWNER,
                      "share of code bytes · counted public repos · %s%s"
                      % (stamp, " · partial data" if partial else ""))
     return svg.replace("{BODY}", "".join(body))
@@ -358,16 +365,15 @@ def write_text_atomic(path, text):
 
 
 def render_cards(s, out_dir, now=None):
-    """Render all four cards; returns list of written paths."""
+    """Render both Matrix cards; returns list of written paths."""
     now = now or datetime.now(timezone.utc)
     stamp = now.strftime("%Y-%m-%d %H:%M UTC")
     partial = bool(s["errors"])
     written = []
-    for theme in ("light", "dark"):
-        for name, builder in (("github-stats", build_stats_svg), ("top-langs", build_langs_svg)):
-            p = os.path.join(out_dir, "%s-%s.svg" % (name, theme))
-            write_text_atomic(p, builder(s, theme, stamp, partial))
-            written.append(p)
+    for name, builder in (("github-stats", build_stats_svg), ("top-langs", build_langs_svg)):
+        p = os.path.join(out_dir, "%s.svg" % name)
+        write_text_atomic(p, builder(s, stamp, partial))
+        written.append(p)
     return written
 
 
