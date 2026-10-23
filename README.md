@@ -1,4 +1,4 @@
-<img src="https://capsule-render.vercel.app/api?type=waving&height=200&color=0:001a00,50:008c00,100:00FF41&text=Sohrab%20Iranpak&fontSize=46&fontAlignY=34&desc=R%26D%20Software%20Engineer&descAlignY=58&descSize=18&animation=fadeIn" width="100%" />
+<img src="assets/banner.svg" width="100%" alt="Sohrab Iranpak — R&D Software Engineer" />
 
 <div align="center">
 
@@ -97,4 +97,4 @@ $ cat motto.txt
 
 ---
 
-<img src="https://capsule-render.vercel.app/api?type=waving&height=150&color=0:001a00,50:008c00,100:00FF41&section=footer&text=EOF&fontSize=26&fontAlignY=65&animation=fadeIn" width="100%" />
+<img src="assets/footer.svg" width="100%" alt="EOF" />

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="150" viewBox="0 0 1600 150" role="img" aria-label="EOF">
+  <defs>
+    <linearGradient id="footGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00FF41"/>
+      <stop offset="50%" stop-color="#008c00"/>
+      <stop offset="100%" stop-color="#001a00"/>
+    </linearGradient>
+    <filter id="textShadowF" x="-20%" y="-60%" width="140%" height="220%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000f00" flood-opacity="0.75"/>
+    </filter>
+  </defs>
+  <g>
+    <animate attributeName="opacity" from="0" to="1" dur="1.2s" fill="freeze"/>
+    <path d="M0,150 V64 Q200,16 400,56 Q600,96 800,46 Q1000,4 1200,52 Q1400,92 1600,42 V150 Z" fill="url(#footGrad)"/>
+    <g font-family="Consolas, 'Courier New', monospace" fill="#c8ffd6" opacity="0.28">
+      <text x="140"  y="86"  font-size="13">0</text>
+      <text x="330"  y="110" font-size="14">1</text>
+      <text x="560"  y="92"  font-size="12">0</text>
+      <text x="760"  y="108" font-size="14">1</text>
+      <text x="1010" y="90"  font-size="13">0</text>
+      <text x="1230" y="110" font-size="14">1</text>
+      <text x="1440" y="92"  font-size="12">0</text>
+    </g>
+    <text x="800" y="104" text-anchor="middle" font-family="Consolas, 'Courier New', monospace" font-size="26" font-weight="bold" fill="#FFFFFF" filter="url(#textShadowF)">EOF</text>
+  </g>
+</svg>
