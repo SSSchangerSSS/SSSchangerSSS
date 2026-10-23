@@ -16,13 +16,19 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: Generate snake SVGs
-        uses: Platane/snk/svg-only@v3
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
-          github_user_name: ${{ github.repository_owner }}
-          outputs: |
-            dist/github-contribution-grid-snake.svg
-            dist/github-contribution-grid-snake-dark.svg?palette=github-dark
+          python-version: "3.11"
+
+      - name: Generate growing-snake SVGs
+        env:
+          SNAKE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SNAKE_OWNER: ${{ github.repository_owner }}
+        run: python .github/scripts/gen_snake_svg.py
 
       - name: Publish snake SVGs to output branch
         uses: crazy-max/ghaction-github-pages@v4
