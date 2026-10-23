@@ -1,4 +1,4 @@
-<img src="assets/banner.svg" width="100%" alt="Sohrab Iranpak — R&D Software Engineer" />
+<img src="assets/banner.svg?v=2" width="100%" alt="Sohrab Iranpak — R&D Software Engineer" />
 
 <div align="center">
 
@@ -97,4 +97,4 @@ $ cat motto.txt
 
 ---
 
-<img src="assets/footer.svg" width="100%" alt="EOF" />
+<img src="assets/footer.svg?v=2" width="100%" alt="EOF" />
