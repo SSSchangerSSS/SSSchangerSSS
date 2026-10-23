@@ -32,6 +32,14 @@ OWNER = os.environ.get("STATS_OWNER", "SSSchangerSSS")
 OUT_DIR = os.environ.get("STATS_OUT") or os.path.join(
     os.path.dirname(os.path.abspath(__file__)), "..", "..", "assets")
 
+# Repositories whose VENDORED third-party source would drown out the account's
+# own code in the byte-based language shares. ShadowHero embeds the LÖVE for
+# Android engine tree (C/C++/Shell, ~46 MB — byte-identical profile to the
+# already-forked love-android) with the account's own code being the Lua part.
+# Excluded from stars AND language bytes alike. Adjust here, document in
+# docs/profile-maintenance.md.
+EXCLUDED_REPOS = ("SSSchangerSSS/ShadowHero",)
+
 CARD_W, CARD_H = 480, 224
 TOP_LANGS = 6
 PAGE_SIZE, MAX_PAGES = 100, 10
@@ -124,15 +132,18 @@ def paginate(fetch_page, max_pages=MAX_PAGES):
     return items
 
 
-def aggregate_repos(repos, lang_fetcher):
+def aggregate_repos(repos, lang_fetcher, excluded=EXCLUDED_REPOS):
     """Split repositories into honest aggregates.
 
-    Forks are excluded everywhere. Returns (original_count, stars, lang_bytes,
-    lang_errors). lang_fetcher(full_name) -> dict or raises FetchError.
+    Forks and explicitly excluded (vendored-source) repos are excluded
+    everywhere. Returns (original_count, stars, lang_bytes, lang_errors).
+    lang_fetcher(full_name) -> dict or raises FetchError.
     """
     count, stars, langs, errors = 0, 0, {}, []
     for r in repos:
         if r.get("fork"):
+            continue
+        if r.get("full_name") in excluded:
             continue
         count += 1
         stars += int(r.get("stargazers_count") or 0)
@@ -273,7 +284,7 @@ def build_stats_svg(s, theme, stamp, partial):
     u = s.get("user") or {}
     rows = [
         ("public repos", u.get("public_repos")),
-        ("stars · original repos", s["stars"] if s["repos"] else None),
+        ("stars · counted repos", s["stars"] if s["repos"] else None),
         ("commits · public search index", s["commits"]),
         ("followers", u.get("followers")),
         ("current streak · days", s["streak"]),
@@ -331,7 +342,7 @@ def build_langs_svg(s, theme, stamp, partial=False):
                         '+ other languages %.1f%%</text>' % (FONT, t["dim"],
                                                              100.0 * other / total))
     svg = card_shell(theme, "CODE — BY BYTES", "@" + OWNER,
-                     "share of code bytes · public non-fork repos · %s%s"
+                     "share of code bytes · counted public repos · %s%s"
                      % (stamp, " · partial data" if partial else ""))
     return svg.replace("{BODY}", "".join(body))
 

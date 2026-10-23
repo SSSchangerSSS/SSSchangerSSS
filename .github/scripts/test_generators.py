@@ -148,6 +148,20 @@ class StatsLogicTests(unittest.TestCase):
         self.assertEqual(langs, {"Python": 10, "Lua": 5})  # fork bytes ignored
         self.assertEqual(errors, [])
 
+    def test_aggregate_excludes_listed_vendored_repos(self):
+        repos = [
+            {"full_name": "o/engine", "name": "engine", "fork": False,
+             "stargazers_count": 9},
+            {"full_name": "o/mine", "name": "mine", "fork": False,
+             "stargazers_count": 1},
+        ]
+        fake_langs = {"o/engine": {"C": 29000000}, "o/mine": {"Lua": 5}}
+        count, stars, langs, errors = stats.aggregate_repos(
+            repos, lambda fn: fake_langs[fn],
+            excluded=("o/engine",))
+        self.assertEqual((count, stars), (1, 1))
+        self.assertEqual(langs, {"Lua": 5})
+
     def test_lang_percentage_denominator_is_total(self):
         rows, other = stats.lang_rows({"A": 60, "B": 30, "C": 10}, top=2)
         self.assertEqual([(r[0], round(r[2], 1)) for r in rows], [("A", 60.0), ("B", 30.0)])

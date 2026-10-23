@@ -45,6 +45,12 @@ Colors live in `THEMES` in `.github/scripts/gen_stats_svg.py`. Rows live in
 Honesty rules you must keep when editing:
 
 - forks stay excluded from stars **and** language bytes (`aggregate_repos`);
+- repos with vendored third-party engine trees stay excluded too
+  (`EXCLUDED_REPOS` in the script; currently `SSSchangerSSS/ShadowHero`,
+  which embeds the LÖVE-for-Android engine source and would otherwise
+  drown the language card in ~46 MB of C/C++ that is not the account's
+  own code). Add or remove entries there and note the change in the
+  commit message;
 - language percentages always divide by **all** counted bytes
   (`lang_rows`), never by the displayed rows only;
 - the commit row keeps its "public search index" label — it reflects

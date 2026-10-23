@@ -61,12 +61,12 @@
 <div align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="assets/github-stats-dark.svg" />
-    <img src="assets/github-stats-light.svg" alt="آمار عمومی گیت‌هاب: مخزن‌ها، ستاره‌های مخزن‌های اصلی، کامیت‌های عمومی، دنبال‌کننده‌ها و استریک جاری" width="480" />
+    <img src="assets/github-stats-light.svg" alt="آمار عمومی گیت‌هاب: مخزن‌ها، ستاره‌های مخزن‌های شمرده‌شده، کامیت‌های عمومی، دنبال‌کننده‌ها و استریک جاری" width="480" />
   </picture>
   <br/>
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="assets/top-langs-dark.svg" />
-    <img src="assets/top-langs-light.svg" alt="سهم زبان‌ها بر حسب بایت کد در مخزن‌های عمومی غیرفورک" width="480" />
+    <img src="assets/top-langs-light.svg" alt="سهم زبان‌ها بر حسب بایت کد در مخزن‌های عمومی شمرده‌شده" width="480" />
   </picture>
 </div>
 

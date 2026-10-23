@@ -59,12 +59,12 @@ A complete 2D game written in Lua with the LÖVE 2D engine, packaged for Android
 <div align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="assets/github-stats-dark.svg" />
-    <img src="assets/github-stats-light.svg" alt="GitHub public stats: repositories, stars on original repos, public commits (search index), followers, current streak" width="480" />
+    <img src="assets/github-stats-light.svg" alt="GitHub public stats: repositories, stars on counted public repos, public commits (search index), followers, current streak" width="480" />
   </picture>
   <br/>
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="assets/top-langs-dark.svg" />
-    <img src="assets/top-langs-light.svg" alt="Language breakdown by code bytes across public non-fork repositories" width="480" />
+    <img src="assets/top-langs-light.svg" alt="Language breakdown by code bytes across counted public repositories" width="480" />
   </picture>
 </div>
 
