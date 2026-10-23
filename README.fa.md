@@ -1,17 +1,36 @@
 <div align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="assets/banner-dark.svg" />
-    <img src="assets/banner-light.svg" alt="سهراب ایران‌پک — مهندس نرم‌افزار R&D" width="100%" />
+    <source media="(prefers-reduced-motion: reduce)" srcset="assets/banner-static.svg?v=1" />
+    <img src="assets/banner.svg?v=3" width="100%" alt="بنر سبک ماتریکس: باران کد سبز پشت پنل ترمینال تیره با نام سهراب ایران‌پک — مهندس نرم‌افزار R&D" />
   </picture>
 </div>
 
-<div dir="rtl">
-
 # سهراب ایران‌پک
 
-**مهندس نرم‌افزار R&D.** میان شبیه‌سازی رباتیک، مهندسی دات‌نت و بازی‌سازی جابه‌جا می‌شوم — و دوست دارم کارها را تا انتها ببرم: یک شبیه‌ساز ربات در MATLAB با رابط کاربری واقعی، یک برنامهٔ کامل دسکتاپ با WPF/MVVM، و بازی‌هایی که همین حالا در مرورگر قابل بازی‌اند.
-
 [English](README.md) · **فارسی**
+
+<div dir="rtl">
+
+```bash
+$ whoami
+sohrab-iranpak — R&D Software Engineer
+
+$ cat focus.txt
+robotics & simulation · MATLAB · .NET (WPF/MVVM) · game development · web & mobile
+```
+
+میان شبیه‌سازی رباتیک، مهندسی دات‌نت و بازی‌سازی جابه‌جا می‌شوم — و دوست دارم کارها را تا انتها ببرم: یک شبیه‌ساز ربات در MATLAB با رابط کاربری واقعی، یک برنامهٔ کامل دسکتاپ با WPF/MVVM، و بازی‌هایی که همین حالا در مرورگر قابل بازی‌اند.
+
+## ماتریکس مشارکت‌ها
+
+<div align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SSSchangerSSS/SSSchangerSSS/output/github-contribution-grid-snake-dark.svg?v=5" />
+    <img src="https://raw.githubusercontent.com/SSSchangerSSS/SSSchangerSSS/output/github-contribution-grid-snake.svg?v=5" alt="مار سبز ماتریکسی روی تقویم مشارکت‌های گیت‌هاب که خانه‌های دارای مشارکت را می‌خورد" />
+  </picture>
+</div>
+
+یک مار سبز فسفری روی تقویم واقعی مشارکت‌های من. مسیرش را روی خانه‌هایی که واقعاً مشارکت دارند می‌گذراند و آن‌ها را می‌خورد — خانهٔ خورده‌شده تا شروع چرخهٔ بعدی خالی می‌ماند. انیمیشن هر روز توسط GitHub Actions بازتولید می‌شود (موتور: [Platane/snk](https://github.com/Platane/snk)، پالت ماتریکسی)؛ اگر دریافت داده شکست بخورد، انیمیشن روز قبل باقی می‌ماند و تقویم جعلی منتشر نمی‌شود.
 
 ## پروژه‌های منتخب
 
@@ -20,7 +39,7 @@
 بازی اکشن دوبعدیِ فریم‌به‌فریم با الهام از شاهنامهٔ فردوسی — رستم در برابر شیر، ساخته‌شده برای مرورگر.
 
 - **فناوری:** HTML5 Canvas · جاوااسکریپت خالص (ES Modules) · لایهٔ رابط با CSS · صدای رویه‌ای با WebAudio (بدون فایل صوتی)
-- **چه چیزی کار می‌کند:** انیمیشن فریم‌به‌فریم با شیت‌های نقاشی‌شدهٔ دستی (حدود ۲۰۰ فریم) قفل‌شده به ماشین حالت مبارزه؛ ضربهٔ نهایی به سبک God of War با QTE؛ صحرای پارالاکس چندلایه به‌صورت کدنویسی‌شده؛ کنترل لمسی موبایل‌محور با قفل ۶۰ فریم بر ثانیه
+- **چه چیزی کار می‌کند:** انیمیشن فریم‌به‌فریم با شیت‌های نقاشی‌شدهٔ دستی (حدود ۲۰۰ فریم) قفل‌شده به ماشین حالت مبارزه، ضربهٔ نهایی به سبک God of War با QTE، صحرای پارالاکس چندلایه، کنترل لمسی موبایل‌محور با قفل ۶۰ فریم بر ثانیه
 - ▶️ **قابل بازی در مرورگر:** [ssschangersss.github.io/The-Great-Rostam](https://ssschangersss.github.io/The-Great-Rostam/)
 
 <img src="https://raw.githubusercontent.com/SSSchangerSSS/The-Great-Rostam/main/docs/screenshots/title.png" width="460" alt="صفحهٔ عنوان بازی The Great Rostam" />
@@ -38,7 +57,7 @@
 
 یک برنامهٔ کامل ویندوزی برای عملیات اجارهٔ خودرو، ساخته‌شده با پایبندی سخت‌گیرانه به الگوی MVVM.
 
-- **فناوری:** #C · WPF · MVVM · Entity Framework Core · SQLite · تزریق وابستگی با Microsoft.Extensions.Hosting · AutoMapper · Material Design
+- **فناوری:** C# · WPF · MVVM · Entity Framework Core · SQLite · تزریق وابستگی با Microsoft.Extensions.Hosting · AutoMapper · Material Design
 - **درون پروژه:** عملیات CRUD عمومی، کارخانهٔ ساخت ViewModel، ناوبری و ارتباط اصولی میان ViewModelها، دسترسی غیرهمگام به داده، و لایهٔ Store برای کاستن از رفت‌وبرگشت‌های اضافه به پایگاه داده
 
 ### 🎮 [بازی دوبعدی با LÖVE 2D](https://github.com/SSSchangerSSS/2d_lua_game_made_with_love2d_engine_for_android)
@@ -51,41 +70,35 @@
 ## حوزه‌های کاری و ابزارها
 
 - **رباتیک و شبیه‌سازی** — MATLAB، ابزار پیتر کروک، الگوریتم ژنتیک، مصورسازی سه‌بعدی
-- **مهندسی دات‌نت** — #C، WPF/MVVM، Entity Framework Core، SQLite، تزریق وابستگی، AutoMapper
+- **مهندسی دات‌نت** — C#، WPF/MVVM، Entity Framework Core، SQLite، تزریق وابستگی، AutoMapper
 - **بازی‌سازی** — HTML5 Canvas، جاوااسکریپت، Lua / LÖVE 2D، خط تولید اسپرایت و صدای رویه‌ای
 - **وب و موبایل** — Angular، TypeScript، Flutter/Dart
 - **سیستم‌های سطح پایین** — پردازش تصویر، تحلیل بسته‌های شبکه با Scapy
 
+<div align="center">
+  <img src="https://img.shields.io/badge/MATLAB-00FF41?style=flat-square&logo=mathworks&logoColor=00FF41&labelColor=020604" alt="MATLAB" />
+  <img src="https://img.shields.io/badge/C%23-00FF41?style=flat-square&logo=csharp&logoColor=00FF41&labelColor=020604" alt="C#" />
+  <img src="https://img.shields.io/badge/.NET-00FF41?style=flat-square&logo=.net&logoColor=00FF41&labelColor=020604" alt=".NET" />
+  <img src="https://img.shields.io/badge/JavaScript-00FF41?style=flat-square&logo=javascript&logoColor=00FF41&labelColor=020604" alt="JavaScript" />
+  <img src="https://img.shields.io/badge/Lua-00FF41?style=flat-square&logo=lua&logoColor=00FF41&labelColor=020604" alt="Lua" />
+  <img src="https://img.shields.io/badge/Angular-00FF41?style=flat-square&logo=angular&logoColor=00FF41&labelColor=020604" alt="Angular" />
+  <img src="https://img.shields.io/badge/Flutter-00FF41?style=flat-square&logo=flutter&logoColor=00FF41&labelColor=020604" alt="Flutter" />
+</div>
+
 ## گیت‌هاب در یک نگاه
 
 <div align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="assets/github-stats-dark.svg" />
-    <img src="assets/github-stats-light.svg" alt="آمار عمومی گیت‌هاب: مخزن‌ها، ستاره‌های مخزن‌های شمرده‌شده، کامیت‌های عمومی، دنبال‌کننده‌ها و استریک جاری" width="480" />
-  </picture>
+  <img src="assets/github-stats.svg?v=3" width="480" alt="کارت آمار با ظاهر ترمینال ماتریکس: مخزن‌های عمومی، ستارهٔ مخزن‌های شمرده‌شده، کامیت‌ها از ایندکس جست‌وجوی عمومی، دنبال‌کننده‌ها و استریک جاری" />
   <br/>
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="assets/top-langs-dark.svg" />
-    <img src="assets/top-langs-light.svg" alt="سهم زبان‌ها بر حسب بایت کد در مخزن‌های عمومی شمرده‌شده" width="480" />
-  </picture>
+  <img src="assets/top-langs.svg?v=3" width="480" alt="کارت زبان‌ها با ظاهر ترمینال ماتریکس: سهم بایت کد در مخزن‌های عمومی شمرده‌شده" />
 </div>
 
 این کارت‌ها هر روز توسط GitHub Actions از دادهٔ عمومی بازتولید می‌شوند. شمارندهٔ کامیت از ایندکس جست‌وجوی کامیت عمومی گیت‌هاب می‌آید و سهم زبان‌ها بر پایهٔ بایت کد در مخزن‌های عمومی غیرفورک است — یک سنجهٔ حجم، نه سنجهٔ مهارت.
 
-<details>
-<summary>🐍 مار مشارکت‌ها <em>(تنها عنصر متحرک این صفحه)</em></summary>
-<br/>
+---
+
 <div align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/SSSchangerSSS/SSSchangerSSS/output/github-contribution-grid-snake-dark.svg?v=4" />
-    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/SSSchangerSSS/SSSchangerSSS/output/github-contribution-grid-snake.svg?v=4" />
-    <img alt="انیمیشن مار مشارکت‌ها — با خوردن هر خانه بزرگ‌تر می‌شود" src="https://raw.githubusercontent.com/SSSchangerSSS/SSSchangerSSS/output/github-contribution-grid-snake.svg?v=4" />
-  </picture>
+  <code>> EOF · code, robots & games — built in the open on GitHub</code>
 </div>
-</details>
-
-## ارتباط
-
-بهترین راه برای در تماس بودن، خود گیت‌هاب است — در هر یک از مخزن‌های بالا Issue یا Discussion باز کنید.
 
 </div>

@@ -31,11 +31,24 @@ jobs:
       - name: Run generator tests
         run: python .github/scripts/test_generators.py
 
-      - name: Generate growing-snake SVGs
-        env:
-          SNAKE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SNAKE_OWNER: ${{ github.repository_owner }}
-        run: python .github/scripts/gen_snake_svg.py
+      # Engine: Platane/snk svg-only edition. It reads the REAL contribution
+      # calendar, computes a purposeful path over the contributed cells and
+      # consumes (removes) each of them as the snake passes — behaviour our
+      # custom engine never fully delivered. Colors below are the Matrix
+      # palette: phosphor snake #00FF41, dots ramping from panel-dark to
+      # bright green. Hex values are URL-encoded (# -> %23).
+      - name: Generate snake SVGs (Platane/snk, Matrix palette)
+        uses: Platane/snk/svg-only@v3
+        with:
+          github_user_name: ${{ github.repository_owner }}
+          outputs: |
+            dist/github-contribution-grid-snake.svg?color_snake=%2300FF41&color_dots=%230D1F14,%23123A22,%231C6B39,%2327A95B,%2335D468
+            dist/github-contribution-grid-snake-dark.svg?color_snake=%2300FF41&color_dots=%230D1F14,%23123A22,%231C6B39,%2327A95B,%2335D468
+
+      # Same filenames out as in: only a panel background + border are added
+      # so the calendar reads as a Matrix terminal panel on both themes.
+      - name: Theme snake SVGs as Matrix panels
+        run: python .github/scripts/theme_snake_svg.py --dir dist
 
       - name: Publish snake SVGs to output branch
         uses: crazy-max/ghaction-github-pages@v4
