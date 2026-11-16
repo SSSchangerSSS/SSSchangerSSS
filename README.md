@@ -32,16 +32,6 @@ A phosphor-green snake on my real contribution calendar. It follows a path over 
 
 ## Selected projects
 
-### ⚔️ [The Great Rostam](https://github.com/SSSchangerSSS/The-Great-Rostam)
-
-A frame-by-frame 2D action game inspired by Ferdowsi's *Shahnameh* — Rostam against the Lion, built for the browser.
-
-- **Tech:** HTML5 Canvas · vanilla JavaScript (ES modules) · CSS UI layer · procedural WebAudio (no audio files)
-- **What works:** hand-painted sprite-sheet animation (~200 frames) locked to a combat state machine, God-of-War-style finisher QTEs, multi-layer parallax desert, mobile-first touch controls at 60 fps
-- ▶️ **Playable in the browser:** [ssschangersss.github.io/The-Great-Rostam](https://ssschangersss.github.io/The-Great-Rostam/)
-
-<img src="https://raw.githubusercontent.com/SSSchangerSSS/The-Great-Rostam/main/docs/screenshots/title.png" width="460" alt="The Great Rostam — in-game title screen" />
-
 ### 🤖 [RRR Robot Simulation](https://github.com/SSSchangerSSS/3degree_RRR_robot_in_matlab_genetic_algorithm)
 
 A 3-DOF articulated (RRR) robot arm simulated in MATLAB on top of Peter Corke's Robotics Toolbox, with a custom-built GUI.
